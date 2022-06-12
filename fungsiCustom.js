@@ -1,5 +1,5 @@
 // TODO: import module bila dibutuhkan di sini
-
+const fs = require('fs');
 // ! JANGAN DIMODIFIKASI
 let file1 = "./data1.json";
 let file2 = "./data2.json";
@@ -18,7 +18,44 @@ let modifyFile3 = (val) => {
 
 // TODO: Kerjakan bacaData
 // gunakan variabel file1, file2, dan file3
-const bacaData = null;
+//const bacaData = null;
+
+let files = [file1, file2, file3];
+function bacaData(fnCallback) {
+            let save = [];
+            fs.readFile(file1,{encoding: 'utf8'},(err, data) => {
+                if (err) fnCallback(err);
+                const newWord = change (data);
+                save.push(newWord);
+                            fs.readFile(file2,{encoding: 'utf8'},(err, data) => {
+                              if (err) fnCallback(err);
+                              const newWord = change (data);
+                              save.push(newWord);
+                                          fs.readFile(file3,{encoding: 'utf8'},(err, data) => {
+                                            if (err) fnCallback(err);
+                                            const newWord = change (data);
+                                            save.push(newWord);
+                                            fnCallback(null,save);
+                })
+              })
+            })  
+}
+
+function change(data){
+  const kata = JSON.parse(data);
+  if (kata.message !=undefined){
+    const word = kata.message.split(" ");
+    return word[word.length - 1];
+  } 
+  else if (kata[0].message != undefined){
+    const word = kata[0].message.split(" ");
+    return word[word.length - 1];
+  }
+  else if (kata[0].data.message != undefined){
+    const  word = kata[0].data.message.split(" ");
+    return word[word.length - 1];}
+
+  }
 
 // ! JANGAN DIMODIFIKASI
 module.exports = {
